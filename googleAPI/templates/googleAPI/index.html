@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+<meta charset="utf-8">
+</head>
+
+<body>
+
+<style type="text/css">
+    .main {
+        display: flex;
+        justify-content: center;
+    }
+	body{
+        background-color: #202020;
+        color: #0E0E0E;
+	}
+    li {
+        list-style-type: none;
+    }
+    ul {
+        padding-left: 0;
+    }
+    .li-elements {
+        display: flex;
+        justify-content: center;
+    }
+    .ul-grid {
+        display: grid;
+        grid-template-columns: 70px 110px 105px 105px 120px;
+    }
+    button {
+        border-radius: 0.25rem;
+        color: #fff;
+        background-color: #393939;
+        border-color: #393939;
+    }
+    .container {
+        border-radius: 1rem;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: #F3F3F3;
+    }
+</style>
+
+<div class="main">
+    <div class="container">
+        <lu>
+            <li>
+                <form> 
+                    <ul class="ul-grid">
+                        <li class="li-elements"><button type="submit">Номер</button></input></li>
+                        <li class="li-elements"><button type="submit" name="order" value="1">Номер заказа</button></li>
+                        <li class="li-elements"><button type="submit" name="order" value="2">Стоимость $</button></li>
+                        <li class="li-elements"><button type="submit" name="order" value="3">Стоимость ₽</button></li>
+                        <li class="li-elements"><button type="submit" name="order" value="4">Срок поставки</button></li>
+                    </ul>
+                </form>
+            </li>
+            {% for element in content %}
+            <li>
+                <ul class="ul-grid">
+                    {% for i in element %}
+                    <li class="li-elements">
+                        {{ i }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </lu>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+ws_path = 'ws://' + window.location.host + "/"
+var database_socket = new WebSocket(ws_path);
+
+var update_database = function(){
+    database_socket.send(JSON.stringify({
+        "command": "table_update",
+    }))
+}
+
+database_socket.onopen = function(open){
+    update_database()
+}
+
+database_socket.onmessage = function(message){
+	var data = JSON.parse(message.data);
+
+    if (data.update_page){
+        window.location.reload()
+    }
+    if (data.refresh_json){
+        setTimeout(update_database, 1000)
+    }
+}
+</script>
+
+</body>
+
+</html>
