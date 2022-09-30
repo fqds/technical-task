@@ -21,3 +21,5 @@ DATABASES = {
 4) Выполняем команду `python manage.py migrate`
 5) В siteMain/settings.py присваиваем переменной  `TELEGRAM_ID` значение, равное айди вашего телеграмм аккаунта
 6) Запускаем сервер `python manage.py runserver`
+
+## Google Sheets https://docs.google.com/spreadsheets/d/156Ug6eEEdmcoQMllCw7tww6sh6Ofwx9ORP0qMLcXkVM
